@@ -1,10 +1,11 @@
 :root {
-  --bg-body: #e7d9ce;
-  --white: #fff;
+  --bg-body: #faf2ef;
+  --bg-main: #f8f8f8;
   --color-text: #000;
   --filled-color: #000;
   --filled-bg: #eddadc;
 
+  --white: #fff;
   --yellow: #f2ba37;
   --blue: #37399a;
   --highlight-blue: #4b4fa7;
@@ -66,4 +67,40 @@ a {
 
 ul {
   list-style: none;
+}
+
+nav {
+  background-color: var(--bg-body);
+  color: var(--color-text);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 5px 5px var(--bg-main);
+  z-index: 99;
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: var(--nav-size);
+}
+
+.nav-logo {
+  font-size: var(--font-size-lg);
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.dark-mode-toggle {
+  color: var(--pink);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+}
+
+.bxs-sun {
+  display: none;
 }
