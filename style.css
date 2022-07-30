@@ -1,9 +1,10 @@
 :root {
   --bg-body: #faf2ef;
-  --bg-main: #f8f8f8;
+  --bg-main: #fefefe;
   --color-text: #000;
   --filled-color: #000;
   --filled-bg: #eddadc;
+  --text: #333;
 
   --white: #fff;
   --yellow: #f2ba37;
@@ -17,20 +18,23 @@
   /* global css styles */
   --nav-size: 70px;
   --sudoku-cell-size: 50px;
-  --border-radius: 10px;
+  --border-radius: 5px;
   --space-y: 10px;
   --gap: 5px;
-  --font-size: 1.5rem;
+  /* Font sizes */
+  --font-size: 1rem;
+  --font-size-md: 1.125rem;
   --font-size-lg: 2rem;
   --font-size-xl: 3rem;
 }
 
 .dark {
-  --bg-main: #4b4fa7;
+  --bg-main: #5257b7;
   --bg-body: #37399a;
-  --color-text: #6a6a6a;
+  --color-text: #fff;
   --filled-color: #8180c0;
   --filled-bg: #000;
+  --text: #bcbbbb;
 }
 
 /* GLOBAL STYLES */
@@ -116,4 +120,85 @@ nav {
 
 .dark .bxs-moon {
   display: none;
+}
+
+/* ====== MAIN START SCREEN ====== */
+main {
+  height: 100vh;
+  padding-top: var(--nav-size);
+  display: grid;
+  place-items: center;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  min-width: 500px;
+}
+
+button {
+  display: block;
+}
+
+.start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-screen.active {
+  transform: translateX(0);
+}
+
+.start-screen > * + * {
+  margin-top: 20px;
+}
+
+.input-name {
+  width: 50%;
+  border-radius: var(--border-radius);
+  outline: 0;
+  border: 0;
+  border: 2px solid var(--pink);
+  background-color: transparent;
+  padding: 15px 20px;
+  font-size: 22px;
+}
+
+input::placeholder {
+  color: var(--text);
+  font-size: var(--font-size);
+}
+
+.btn {
+  outline: 0;
+  border: 0;
+  height: 40px;
+  width: 40%;
+  background-color: var(--filled-bg);
+  color: var(--pink);
+  border-radius: var(--border-radius);
+  display: grid;
+  place-content: center;
+  font-family: "Source Sans Pro", sans-serif;
+  overflow: hidden;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: width 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-pink {
+  background-color: var(--pink);
+  color: var(--white);
 }
