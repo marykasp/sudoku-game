@@ -1,17 +1,31 @@
-// Selectors
+// ===================== SELECTORS =============================
 const darkModeToggle = document.querySelector("#dark-mode-toggle");
 const nameInput = document.querySelector("#input-name");
-const startScreen = document.querySelector("#start-screen");
 const btnPlay = document.querySelector("#btn-play");
 const errorMsg = document.querySelector(".error-message");
 const btnLevel = document.querySelector("#btn-level");
 
-// initial values
+// Game Selectors
 const cells = document.querySelectorAll(".main-grid-cell");
+const playerName = document.querySelector("#player-name");
+const gameLevel = document.querySelector("#game-level");
+const gameTime = document.querySelector("#game-time");
+
+// Screens
+const startScreen = document.querySelector("#start-screen");
+const gameScreen = document.querySelector("#game-screen");
+// ---------------------------
+
+// ===================== INITIAL VALUES =============================
 let levelIndex = 0;
 let level = CONSTANT.LEVEL[levelIndex];
-btnLevel.innerText = CONSTANT.LEVEL_NAME[levelIndex];
+let timer = null;
+let pause = false;
+let seconds = 0;
+
 // -------------------------
+
+// ===================== FUNCTIONS =============================
 
 // get game property from local storage
 const getGameInfo = () => {
@@ -35,9 +49,56 @@ const initGamegrid = () => {
     }
   }
 };
+
+const setPlayerName = (name) => localStorage.setItem("playerName", name);
+const getPlayerName = () => JSON.parse(localStorage.getItem("playerName"));
+
+// calculate and display the time
+const showTime = (seconds) => {
+  let hour = Math.floor(seconds / 3600);
+  let minute = Math.floor((seconds - hour * 3600) / 60);
+  let totalseconds = seconds - (hour * 3600 + minute * 60);
+  gameTime.querySelector("#hour").innerHTML = hour;
+  gameTime.querySelector("#minute").innerHTML = minute;
+  gameTime.querySelector("#seconds").innerHTML = totalseconds;
+};
+
+const startGame = () => {
+  startScreen.classList.remove("active");
+  gameScreen.classList.add("active");
+
+  // get player name from input
+  playerName.innerHTML = nameInput.value;
+  // save player name in local storage
+  setPlayerName(nameInput.value);
+
+  gameLevel.innerHTML = CONSTANT.LEVEL_NAME[levelIndex];
+
+  seconds = 0;
+
+  timer = setInterval(() => {
+    if (!pause) {
+      seconds = seconds + 1;
+      showTime(seconds);
+    }
+  }, 1000);
+};
+
 // --------------------------
 
-// Event Listeners
+// ===================== EVENT LISTENERS =============================
+// toggle on and off dark mode
+darkModeToggle.addEventListener("click", () => {
+  // toggle on and off dark mode
+  document.body.classList.toggle("dark");
+  // save theme to local storage
+  const isDarkMode = document.body.classList.contains("dark");
+  localStorage.setItem("darkmode", isDarkMode);
+  // change mobile status bar color
+  document
+    .querySelector('meta[name="theme-color"]')
+    .setAttribute("content", isDarkMode ? "#37399a" : "#faf2ef");
+});
 
 // change level of game and inner text of button to match
 // ---- LEVEL: [29, 38, 47, 56] - Easy, Medium, Hard, Difficult
@@ -55,7 +116,7 @@ btnPlay.addEventListener("click", () => {
   // change game value from local storage to true
   // hide start screen, display game
   if (nameInput.value.trim().length > 0) {
-    alert(`level => ${level}`);
+    startGame();
   } else {
     // show error message
     errorMsg.style.display = "block";
@@ -69,20 +130,9 @@ btnPlay.addEventListener("click", () => {
   }
 });
 
-// toggle on and off dark mode
-darkModeToggle.addEventListener("click", () => {
-  // toggle on and off dark mode
-  document.body.classList.toggle("dark");
-  // save theme to local storage
-  const isDarkMode = document.body.classList.contains("dark");
-  localStorage.setItem("darkmode", isDarkMode);
-  // change mobile status bar color
-  document
-    .querySelector('meta[name="theme-color"]')
-    .setAttribute("content", isDarkMode ? "#37399a" : "#faf2ef");
-});
+// --------------------------
 
-// initialize game
+// ===================== INITIALIZE GAME =============================
 const init = () => {
   // get darkmode boolean value from local storage
   const darkmode = JSON.parse(localStorage.getItem("darkmode"));

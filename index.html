@@ -38,7 +38,7 @@
     <!-- Main game start -->
     <main>
       <div class="screen">
-        <div class="start-screen" id="start-screen">
+        <div class="start-screen active" id="start-screen">
           <p class="error-message">Error message</p>
           <input
             type="text"
@@ -46,19 +46,20 @@
             id="input-name"
             placeholder="Your name"
           />
-          <button class="btn" id="btn-level"></button>
+          <button class="btn" id="btn-level">Easy</button>
           <button class="btn" id="btn-continue">Continue</button>
           <button class="btn btn-pink" id="btn-play">New game</button>
         </div>
         <!-- end start screen -->
 
         <!-- game screen -->
-        <div class="main-game active">
+        <div class="main-game" id="game-screen">
           <div class="main-game-time">
-            <span id="game-time"
-              ><span class="time">10</span>min
-              <span class="time">20</span>sec</span
-            >
+            <span id="game-time">
+              <span class="time" id="hour">hr</span>hr
+              <span class="time" id="minute">min</span>min
+              <span class="time" id="seconds">seconds</span>secs
+            </span>
             <button class="pause" id="btn-pause">
               <i class="bx bx-pause"></i>
             </button>
