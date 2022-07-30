@@ -4,6 +4,8 @@ const nameInput = document.querySelector("#input-name");
 const btnPlay = document.querySelector("#btn-play");
 const errorMsg = document.querySelector(".error-message");
 const btnLevel = document.querySelector("#btn-level");
+const btnPause = document.querySelector("#btn-pause");
+const btnClose = document.querySelector(".close");
 
 // Game Selectors
 const cells = document.querySelectorAll(".main-grid-cell");
@@ -14,6 +16,7 @@ const gameTime = document.querySelector("#game-time");
 // Screens
 const startScreen = document.querySelector("#start-screen");
 const gameScreen = document.querySelector("#game-screen");
+const pauseScreen = document.querySelector("#pause-screen");
 // ---------------------------
 
 // ===================== INITIAL VALUES =============================
@@ -50,7 +53,8 @@ const initGamegrid = () => {
   }
 };
 
-const setPlayerName = (name) => localStorage.setItem("playerName", name);
+const setPlayerName = (name) =>
+  localStorage.setItem("playerName", JSON.stringify(name));
 const getPlayerName = () => JSON.parse(localStorage.getItem("playerName"));
 
 // calculate and display the time
@@ -58,6 +62,8 @@ const showTime = (seconds) => {
   let hour = Math.floor(seconds / 3600);
   let minute = Math.floor((seconds - hour * 3600) / 60);
   let totalseconds = seconds - (hour * 3600 + minute * 60);
+
+  // display the time
   gameTime.querySelector("#hour").innerHTML = hour;
   gameTime.querySelector("#minute").innerHTML = minute;
   gameTime.querySelector("#seconds").innerHTML = totalseconds;
@@ -111,6 +117,12 @@ btnLevel.addEventListener("click", (e) => {
   // console.log(levelIndex, level, e.target);
 });
 
+document.querySelector("#btn-new-game").addEventListener("click", () => {
+  pause = false;
+  pauseScreen.classList.remove("active");
+  startGame();
+});
+
 // New Game Button - show error if no name
 btnPlay.addEventListener("click", () => {
   // change game value from local storage to true
@@ -128,6 +140,39 @@ btnPlay.addEventListener("click", () => {
       nameInput.focus();
     }, 1500);
   }
+});
+
+btnPause.addEventListener("click", () => {
+  // add active to pause screen
+  pauseScreen.classList.add("active");
+  gameScreen.classList.remove("active");
+
+  // display name and level
+  document.querySelector(".player-info-name").innerHTML = getPlayerName();
+  document.querySelector(".player-info-level").innerHTML =
+    CONSTANT.LEVEL_NAME[levelIndex];
+  const playerLevel = document
+    .querySelector(".player-info-level")
+    .innerText.toLowerCase();
+
+  let color = `var(--${playerLevel})`;
+
+  // use player level to set background color of span element
+  document.querySelector(".player-info-level").style.backgroundColor = color;
+  // change pause variable value
+  pause = true;
+});
+
+document.querySelector("#btn-resume").addEventListener("click", () => {
+  pauseScreen.classList.remove("active");
+  gameScreen.classList.add("active");
+  pause = false;
+});
+
+btnClose.addEventListener("click", () => {
+  pauseScreen.classList.remove("active");
+  gameScreen.classList.add("active");
+  pause = false;
 });
 
 // --------------------------
@@ -150,6 +195,12 @@ const init = () => {
 
   // initialize game grid
   initGamegrid();
+
+  if (getPlayerName()) {
+    nameInput.value = getPlayerName();
+  } else {
+    nameInput.focus();
+  }
 };
 
 init();
