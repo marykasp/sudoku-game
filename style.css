@@ -6,14 +6,16 @@
   --filled-bg: #eddadc;
   --text: #333;
 
+  /* #ec51ae */
+
   --white: #fff;
   --yellow: #f2ba37;
   --blue: #37399a;
   --highlight-blue: #4b4fa7;
-  --pink: #ec51ae;
+  --pink: #ec51a1;
   --highlight-pink: #d984b5;
   --border: #8180c0;
-  --alert-color: #b85b65;
+  --alert-color: #e91e63;
 
   /* global css styles */
   --nav-size: 70px;
@@ -169,7 +171,7 @@ button {
   border-radius: var(--border-radius);
   outline: 0;
   border: 0;
-  border: 2px solid var(--pink);
+  border: 2px solid var(--highlight-pink);
   background-color: transparent;
   padding: 15px 20px;
   font-size: 22px;
@@ -196,9 +198,40 @@ input::placeholder {
   font-weight: 600;
   transition: width 0.3s ease-in-out;
   cursor: pointer;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-pink {
   background-color: var(--pink);
   color: var(--white);
+}
+
+/* error message */
+.error-message {
+  background-color: var(--alert-color);
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: var(--white);
+  width: 50%;
+  display: none;
+}
+
+.input-err {
+  border-color: var(--alert-color);
+  animation: bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(20px);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
