@@ -10,15 +10,27 @@ const btnLevel = document.querySelector("#btn-level");
 let levelIndex = 0;
 let level = CONSTANT.LEVEL[levelIndex];
 btnLevel.innerText = CONSTANT.LEVEL_NAME[levelIndex];
-// ---------
+// -------------------------
 
 // get game property from local storage
 const getGameInfo = () => {
   return JSON.parse(localStorage.getItem("game"));
 };
 
-console.log(levelIndex, level, btnLevel.innerText);
+// add space for each 9 cells
+const initGamegrid = () => {
+  let index = 0;
+  for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
+    let row = Math.floor(i / CONSTANT.GRID_SIZE);
+    let col = i % CONSTANT.GRID_SIZE;
+  }
+};
+// --------------------------
+
 // Event Listeners
+
+// change level of game and inner text of button to match
+// ---- LEVEL: [29, 38, 47, 56] - Easy, Medium, Hard, Difficult
 btnLevel.addEventListener("click", (e) => {
   // change the level index when button is clicked on - reset back to first level if index is greatere than the length of the level array
   levelIndex = levelIndex + 1 > CONSTANT.LEVEL.length - 1 ? 0 : levelIndex + 1;
@@ -28,9 +40,10 @@ btnLevel.addEventListener("click", (e) => {
   // console.log(levelIndex, level, e.target);
 });
 
+// New Game Button - show error if no name
 btnPlay.addEventListener("click", () => {
   // change game value from local storage to true
-  // hide start screen
+  // hide start screen, display game
   if (nameInput.value.trim().length > 0) {
     alert(`level => ${level}`);
   } else {
@@ -45,6 +58,8 @@ btnPlay.addEventListener("click", () => {
     }, 1500);
   }
 });
+
+// toggle on and off dark mode
 darkModeToggle.addEventListener("click", () => {
   // toggle on and off dark mode
   document.body.classList.toggle("dark");
@@ -57,6 +72,7 @@ darkModeToggle.addEventListener("click", () => {
     .setAttribute("content", isDarkMode ? "#37399a" : "#faf2ef");
 });
 
+// initialize game
 const init = () => {
   // get darkmode boolean value from local storage
   const darkmode = JSON.parse(localStorage.getItem("darkmode"));
