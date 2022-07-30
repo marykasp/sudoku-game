@@ -21,7 +21,7 @@
   --nav-size: 70px;
   --sudoku-cell-size: 50px;
   --border-radius: 5px;
-  --space-y: 10px;
+  --space-y: 20px;
   --gap: 5px;
   /* Font sizes */
   --font-size: 1rem;
@@ -142,6 +142,9 @@ main {
 
 button {
   display: block;
+  border: 0;
+  outline: 0;
+  appearance: none;
 }
 
 .start-screen {
@@ -297,16 +300,21 @@ input::placeholder {
   color: var(--white);
 }
 
+.main-game-area {
+  display: flex;
+  align-items: center;
+}
+
 /* GAME INFO */
 .main-game-info {
   margin: var(--space-y) 0 10px 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr;
   gap: 10px;
 }
 
 .main-game-info-box {
-  height: 45px;
+  /* height: 45px; */
   background-color: var(--bg-main);
   color: var(--color-text);
   border-radius: var(--border-radius);
@@ -322,18 +330,19 @@ input::placeholder {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
+  margin-top: 2rem;
 }
 
-#btn-pause {
+button#btn-pause {
   background-color: var(--pink);
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--white);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   cursor: pointer;
 }
 
@@ -343,8 +352,42 @@ span#game-time {
   font-weight: 300;
 }
 
-span#game-time span.number {
+span#game-time span.time {
   font-weight: 600;
   color: var(--pink);
   font-size: var(--font-size-lg);
+}
+
+/* Numbers */
+.numbers {
+  margin-top: var(--space-y);
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 5px;
+  margin-left: 20px;
+}
+
+.number {
+  height: var(--sudoku-cell-size);
+  width: var(--sudoku-cell-size);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-main);
+  color: var(--color-text);
+  display: grid;
+  place-items: center;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+}
+
+/* delete button */
+button#btn-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  color: var(--pink);
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  font-size: var(--font-size-md);
 }
