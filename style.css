@@ -26,8 +26,8 @@
 }
 
 .dark {
-  --bg-main: #37399a;
-  --bg-body: #4b4fa7;
+  --bg-main: #4b4fa7;
+  --bg-body: #37399a;
   --color-text: #6a6a6a;
   --filled-color: #8180c0;
   --filled-bg: #000;
@@ -69,6 +69,7 @@ ul {
   list-style: none;
 }
 
+/* ====== NAVIGATION ====== */
 nav {
   background-color: var(--bg-body);
   color: var(--color-text);
@@ -102,5 +103,17 @@ nav {
 }
 
 .bxs-sun {
+  display: none;
+}
+
+.bxs-moon {
+  display: inline-block;
+}
+
+.dark .bxs-sun {
+  display: inline-block;
+}
+
+.dark .bxs-moon {
   display: none;
 }
