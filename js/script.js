@@ -7,6 +7,7 @@ const errorMsg = document.querySelector(".error-message");
 const btnLevel = document.querySelector("#btn-level");
 
 // initial values
+const cells = document.querySelectorAll(".main-grid-cell");
 let levelIndex = 0;
 let level = CONSTANT.LEVEL[levelIndex];
 btnLevel.innerText = CONSTANT.LEVEL_NAME[levelIndex];
@@ -20,9 +21,18 @@ const getGameInfo = () => {
 // add space for each 9 cells
 const initGamegrid = () => {
   let index = 0;
+
   for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
+    // row value will remain the same left to right in the row
     let row = Math.floor(i / CONSTANT.GRID_SIZE);
+    // column will increase by one going left to right in the row
     let col = i % CONSTANT.GRID_SIZE;
+    if (row === 2 || row === 5) {
+      cells[i].style.marginBottom = "10px";
+    }
+    if (col === 2 || col === 5) {
+      cells[i].style.marginRight = "10px";
+    }
   }
 };
 // --------------------------
@@ -87,6 +97,9 @@ const init = () => {
   document.querySelector("#btn-continue").style.display = game
     ? "grid"
     : "none";
+
+  // initialize game grid
+  initGamegrid();
 };
 
 init();
