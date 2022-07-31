@@ -26,6 +26,9 @@ let timer = null;
 let pause = false;
 let seconds = 0;
 
+let su = undefined;
+let suAnswer = undefined;
+
 // -------------------------
 
 // ===================== FUNCTIONS =============================
@@ -69,8 +72,36 @@ const initGamegrid = () => {
   }
 };
 
+const clearSudoku = () => {
+  for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
+    cells[i].innerHTML = "";
+    cells[i].classList.remove("filled");
+    cells[i].classList.remove("selected");
+  }
+};
+
 const initSudoku = () => {
-  // generate sudoku puzzle
+  // clear old sudoku
+  clearSudoku();
+  // generate sudoku puzzle - returns an object with answer and board to play
+  su = sudokuGenerate(level);
+  console.log(su);
+  // make a copy of the board
+  suAnswer = [...su.question];
+
+  // show sudoku to div cells - iterate over all the cells and set the data attribute to be the same as the suduku grid
+  for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
+    let row = Math.floor(i / CONSTANT.GRID_SIZE);
+    let col = i % CONSTANT.GRID_SIZE;
+
+    cells[i].setAttribute("data-value", su.question[row][col]);
+
+    if (su.question[row][col] !== 0) {
+      // if row is not empty add filled class and add number
+      cells[i].classList.add("filled");
+      cells[i].innerHTML = su.question[row][col];
+    }
+  }
 };
 
 const startGame = () => {
@@ -80,11 +111,12 @@ const startGame = () => {
   // get player name from input
   playerName.querySelector("#player").innerHTML = nameInput.value;
   // save player name in local storage
-  setPlayerName(nameInput.value);
+  setPlayerName(nameInput.value.trim());
 
   gameLevel.innerHTML = CONSTANT.LEVEL_NAME[levelIndex];
 
   seconds = 0;
+  showTime(seconds);
 
   timer = setInterval(() => {
     if (!pause) {
@@ -135,6 +167,7 @@ btnPlay.addEventListener("click", () => {
   // change game value from local storage to true
   // hide start screen, display game
   if (nameInput.value.trim().length > 0) {
+    initSudoku();
     startGame();
   } else {
     // show error message

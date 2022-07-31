@@ -1,3 +1,5 @@
+let NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const newGrid = (size) => {
   // instance of Array class
   let arr = new Array(size);
@@ -9,15 +11,16 @@ const newGrid = (size) => {
 
   for (let i = 0; i < Math.pow(size, 2); i++) {
     // grab the cell of the row and column - [0][0] [0][1]
-    arr[Math.floor(i / size)][i % size] = CONSTANT.UNASSIGNED;
+    arr[Math.floor(i / size)][i % size] = 0;
   }
 
+  console.log(arr);
   return arr;
 };
 
 // check duplicate number in col
 const isColValid = (grid, col, value) => {
-  for (let row = 0; row < CONSTANT.GRID_SIZE; row++) {
+  for (let row = 0; row < 9; row++) {
     // already value in that column
     if (grid[row][col] === value) return false;
   }
@@ -27,7 +30,7 @@ const isColValid = (grid, col, value) => {
 
 // check duplicate number in row
 const isRowValid = (grid, row, value) => {
-  for (let col = 0; col < CONSTANT.GRID_SIZE; col++) {
+  for (let col = 0; col < 9; col++) {
     // if value is already in that row
     if (grid[row][col] === value) return false;
   }
@@ -37,8 +40,8 @@ const isRowValid = (grid, row, value) => {
 
 // check duplicate number in 3x3 grid
 const isBoxValid = (grid, box_row, box_col, value) => {
-  for (let row = 0; row < CONSTANT.BOX_SIZE; row++) {
-    for (let col = 0; col < CONSTANT.BOX_SIZE; col++) {
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
       if (grid[row + box_row][col + box_col] === value) return false;
     }
   }
@@ -53,15 +56,15 @@ const isValid = (grid, row, col, value) => {
     isRowValid(grid, row, value) &&
     // row - 0, 3, 6 col - 0, 3, 6
     isBoxValid(grid, row - (row % 3), col - (col % 3), value) &&
-    value !== CONSTANT.UNASSIGNED
+    value !== 0
   );
 };
 
 // find unassigned cell - change the row and column position
 const findUnassignedPos = (grid, pos) => {
-  for (let row = 0; row < CONSTANT.GRID_SIZE; row++) {
-    for (let col = 0; col < CONSTANT.GRID_SIZE; col++) {
-      if (grid[row][col] === CONSTANT.UNASSIGNED) {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (grid[row][col] === 0) {
         pos.row = row;
         pos.col = col;
         return true;
@@ -98,7 +101,7 @@ const isGridFull = (grid) => {
   // every cell must have a value that is not equal to 0
   return grid.every((row, i) => {
     return row.every((value, j) => {
-      return value !== CONSTANT.UNASSIGNED;
+      return value !== 0;
     });
   });
 };
@@ -114,7 +117,7 @@ const sudokuCreate = (grid) => {
   if (!findUnassignedPos(grid, unassignedPos)) return true;
 
   // shuffle array of numbers 1 - 9
-  let numberList = shuffleArray([...CONSTANT.NUMBERS]);
+  let numberList = shuffleArray([...NUMBERS]);
 
   let row = unassignedPos.row;
   let col = unassignedPos.col;
@@ -130,76 +133,42 @@ const sudokuCreate = (grid) => {
           return true;
         }
       }
-
-      grid[row][col] = CONSTANT.UNASSIGNED;
+      grid[row][col] = 0;
     }
   });
-
-  return isGridFull(grid);
+  return grid;
+  // return isGridFull(grid);
 };
 
-const sudokuCheck = (grid) => {
-  let unassignedPos = {
-    row: -1,
-    col: -1,
-  };
-
-  if (!findUnassignedPos(grid, unassignedPos)) return true;
-
-  grid.forEach((row, i) => {
-    row.forEach((num, j) => {
-      if (isValid(grid, i, j, num)) {
-        if (isGridFull(grid)) {
-          return true;
-        } else {
-          if (sudokuCreate(grid)) {
-            return true;
-          }
-        }
-      }
-    });
-  });
-
-  return isGridFull(grid);
-};
-
-const rand = () => Math.floor(Math.random() * CONSTANT.GRID_SIZE);
+const rand = () => Math.floor(Math.random() * 9);
 
 const removeCells = (grid, level) => {
   let res = [...grid];
-
-  let attempts = level;
-  while (attempts > 0) {
+  let attemps = level;
+  while (attemps > 0) {
     let row = rand();
     let col = rand();
-    // goes through and checks cells if the value is equal to 0, when not equal to 0 it will take the copy of the grid and add 0
     while (res[row][col] === 0) {
       row = rand();
       col = rand();
     }
-    res[row][col] = CONSTANT.UNASSIGNED;
-    attempts--;
+    res[row][col] = 0;
+    attemps--;
   }
-
   return res;
 };
 
-// generate sudoku base on level
-const sudokuGenerate = (level) => {
-  // returns a 9x9 grid with 0 in each cell
-  let sudoku = newGrid(CONSTANT.GRID_SIZE);
-
-  // creates a completed sudoku board that is valid - returns true if board is full and there a no unassigned positions
+const sudokuGen = (level) => {
+  let sudoku = newGrid(9);
   let check = sudokuCreate(sudoku);
-  if (check) {
-    // remove random numbers from the board based on the level selected - higher level more numbers removed
-    let question = removeCells(sudoku, level);
-    // returns the question board - the sudoku board has been modified in the removeCells method
-    return {
-      original: sudoku,
-      question: question,
-    };
-  }
-
+  console.log("fullboard", check);
+  console.log("sudoku modified", sudoku);
+  let response = removeCells(sudoku, level);
+  console.log("question", response);
+  // if (check) {
+  //   let question = removeCells(sudoku, level);
+  // }
   return undefined;
 };
+
+sudokuGen(29);
