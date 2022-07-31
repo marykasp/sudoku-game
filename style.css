@@ -280,26 +280,27 @@ input::placeholder {
   cursor: pointer;
 }
 
+.dark .main-grid-cell.filled,
 .main-grid-cell.filled {
   background-color: var(--filled-bg);
   color: var(--filled-color);
-}
-
-.main-grid-cell.selected {
-  background-color: var(--pink);
-  color: var(--white);
 }
 
 .main-grid-cell:hover {
   border: 2px solid var(--pink);
 }
 
-.main-grid-cell.hover {
-  border: 3px solid var(--yellow);
+.main-grid-cell.hover,
+.dark .main-grid-cell.hover {
+  border: 3px solid var(--pink);
+  background-color: var(--yellow);
+  color: #333;
 }
 
-.dark .main-grid-cell.hover {
-  border: 1px solid var(--yellow);
+.dark .main-grid-cell.selected,
+.main-grid-cell.selected {
+  background-color: var(--pink);
+  color: var(--white);
 }
 
 .main-grid-cell.err {

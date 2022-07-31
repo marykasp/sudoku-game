@@ -57,8 +57,6 @@ const showTime = (seconds) => {
 
 // add space for each 9 cells
 const initGamegrid = () => {
-  let index = 0;
-
   for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
     // row value will remain the same left to right in the row
     let row = Math.floor(i / CONSTANT.GRID_SIZE);
@@ -84,6 +82,8 @@ const clearSudoku = () => {
 const initSudoku = () => {
   // clear old sudoku
   clearSudoku();
+  // resetBg - removea all hover classes from the cells
+  resetBg();
   // generate sudoku puzzle - returns an object with answer and board to play
   su = sudokuGenerate(level);
   console.log(su);
@@ -138,7 +138,7 @@ const hoverBg = (index) => {
   }
 
   step = 1;
-  while (index + step >= 9 * row + 9) {
+  while (index + step < 9 * row + 9) {
     cells[index + step].classList.add("hover");
     step += 1;
   }
@@ -157,7 +157,7 @@ const initCellsEvent = () => {
         // then iterate over the cells and remove selected from all
         cells.forEach((e) => e.classList.remove("selected"));
 
-        // add selected class to cell clicked on
+        // add selected class to cell clicked on, get the index of the selected cell
         selectedCell = index;
         e.classList.remove("err");
         e.classList.add("selected");
@@ -170,6 +170,18 @@ const initCellsEvent = () => {
   });
 };
 
+// const initNumberInputEvent = () => {
+//   numberInputs.forEach((e, index) => {
+//     e.addEventListener("click", () => {
+//       if (!cells[selectedCell].classList.contains("filled")) {
+//         cells[selectedCell].innerHTML = index + 1;
+//         cells[selectedCell].setAttribute("data-value", index + 1);
+//       }
+//     });
+//   });
+// };
+
+// ---------------
 const startGame = () => {
   startScreen.classList.remove("active");
   gameScreen.classList.add("active");
@@ -301,6 +313,7 @@ const init = () => {
 
   // initialize game grid
   initGamegrid();
+  initCellsEvent();
 
   if (getPlayerName()) {
     nameInput.value = getPlayerName();
