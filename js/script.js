@@ -118,9 +118,12 @@ btnLevel.addEventListener("click", (e) => {
 });
 
 document.querySelector("#btn-new-game").addEventListener("click", () => {
+  clearInterval(timer);
   pause = false;
+  seconds = 0;
+  gameScreen.classList.remove("active");
   pauseScreen.classList.remove("active");
-  startGame();
+  startScreen.classList.add("active");
 });
 
 // New Game Button - show error if no name
