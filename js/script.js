@@ -30,6 +30,9 @@ let seconds = 0;
 let su = undefined;
 let suAnswer = undefined;
 
+// keep track of cell selected
+let selectedCell = -1;
+
 // -------------------------
 
 // ===================== FUNCTIONS =============================
@@ -55,6 +58,7 @@ const showTime = (seconds) => {
   gameTime.querySelector("#seconds").innerHTML = totalseconds;
 };
 
+// ===================== INITIALIZE GRID, GENERATE BOARD =============================
 // add space for each 9 cells
 const initGamegrid = () => {
   for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
@@ -95,6 +99,7 @@ const initSudoku = () => {
     let row = Math.floor(i / CONSTANT.GRID_SIZE);
     let col = i % CONSTANT.GRID_SIZE;
 
+    // set the cell data-value attribute to be equal to the number at that row and col on the sudoku board
     cells[i].setAttribute("data-value", su.question[row][col]);
 
     if (su.question[row][col] !== 0) {
@@ -104,6 +109,8 @@ const initSudoku = () => {
     }
   }
 };
+
+// --------------------------------------
 
 const hoverBg = (index) => {
   let row = Math.floor(index / CONSTANT.GRID_SIZE);
@@ -148,6 +155,60 @@ const resetBg = () => {
   cells.forEach((e) => e.classList.remove("hover"));
 };
 
+// pass value from input numbers
+const checkErr = (value) => {
+  const addErr = (cell) => {
+    // if the data-value of the cell is equal to the value
+    if (parseInt(cell.getAttribute("data-value")) === value) {
+      cell.classList.add("err");
+      cell.classList.add("cell-err");
+      setTimeout(() => {
+        cell.classList.remove("cell-err");
+      }, 500);
+    }
+  };
+
+  let index = selectedCell;
+
+  let row = Math.floor(index / CONSTANT.GRID_SIZE);
+  let col = index % CONSTANT.GRID_SIZE;
+
+  let boxStartRow = row - (row % 3);
+  let boxStartCol = col - (col % 3);
+
+  // iterates over all the cells in the grid
+  for (let i = 0; i < CONSTANT.BOX_SIZE; i++) {
+    for (let j = 0; j < CONSTANT.BOX_SIZE; j++) {
+      let cell = cells[9 * (boxStartRow + i) + (boxStartCol + j)];
+      // if cell is not selected then check data-value of cell to see if it equals the value if so throw an error
+      if (!cell.classList.contains("selected")) addErr(cell);
+    }
+  }
+
+  let step = 9;
+  while (index - step >= 0) {
+    addErr(cells[index - step]);
+    step += 9;
+  }
+
+  step = 9;
+  while (index + step < 81) {
+    addErr(cells[index + step]);
+    step += 9;
+  }
+
+  step = 1;
+  while (index - step >= 9 * row) {
+    addErr(cells[index - step]);
+    step += 1;
+  }
+
+  step = 1;
+  while (index + step < 9 * row + 9) {
+    addErr(cells[index + step]);
+    step += 1;
+  }
+};
 const initCellsEvent = () => {
   // for each cell add an event listenter
   cells.forEach((e, index) => {
@@ -163,7 +224,7 @@ const initCellsEvent = () => {
         e.classList.add("selected");
         // remove hover class from each cell
         resetBg();
-        // pass in index of cell selected to change hover
+        // pass in index of cell selected to change hover of the correct row, col, 3x3 grid to highlight
         hoverBg(index);
       }
     });
