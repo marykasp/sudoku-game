@@ -88,7 +88,7 @@ nav {
   position: fixed;
   top: 0;
   width: 100%;
-  box-shadow: 5px 5px var(--bg-main);
+  /* box-shadow: 5px 5px var(--bg-main); */
   z-index: 99;
 }
 
@@ -182,7 +182,7 @@ button {
   outline: 0;
   border: 0;
   border: 2px solid var(--highlight-pink);
-  background-color: transparent;
+  background-color: var(--bg-main);
   padding: 15px 20px;
   font-size: 22px;
 }
@@ -196,7 +196,7 @@ input::placeholder {
   outline: 0;
   border: 0;
   height: 40px;
-  width: 40%;
+  width: 50%;
   background-color: var(--filled-bg);
   color: var(--pink);
   border-radius: var(--border-radius);
@@ -270,7 +270,7 @@ input::placeholder {
 .main-grid-cell {
   height: var(--sudoku-cell-size);
   width: var(--sudoku-cell-size);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--border-radius);
   background-color: var(--bg-main);
   color: var(--pink);
@@ -315,9 +315,12 @@ input::placeholder {
 /* GAME INFO */
 .main-game-info {
   margin: var(--space-y) 0 10px 0;
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr;
-  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px; */
 }
 
 .main-game-info-box {
@@ -327,11 +330,18 @@ input::placeholder {
   display: grid;
   place-items: center;
   padding: 0 20px;
+  width: 50%;
+  height: 45px;
   font-size: var(--font-size);
 }
 
+.main-game-info-buttons {
+  display: flex;
+  gap: 5px;
+}
+
 /* delete button */
-button#btn-delete {
+button.game-btn {
   height: var(--sudoku-cell-size);
   width: var(--sudoku-cell-size);
   border-radius: var(--border-radius);
@@ -344,13 +354,24 @@ button#btn-delete {
   cursor: pointer;
 }
 
-.main-game-time {
+.main-game-timer {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   margin-top: 2rem;
+  margin-right: 5px;
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  row-gap: 1rem;
+}
+
+.right-side #player-name {
+  margin-right: 3rem;
 }
 
 button#btn-pause {

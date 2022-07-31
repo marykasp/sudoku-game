@@ -60,7 +60,7 @@ const getPlayerName = () => JSON.parse(localStorage.getItem("playerName"));
 // calculate and display the time
 const showTime = (seconds) => {
   let hour = Math.floor(seconds / 3600);
-  let minute = Math.floor((seconds - hour * 3600) / 60);
+  let minute = Math.floor(seconds / 60);
   let totalseconds = seconds - (hour * 3600 + minute * 60);
 
   // display the time
@@ -74,7 +74,7 @@ const startGame = () => {
   gameScreen.classList.add("active");
 
   // get player name from input
-  playerName.innerHTML = nameInput.value;
+  playerName.querySelector("#player").innerHTML = nameInput.value;
   // save player name in local storage
   setPlayerName(nameInput.value);
 
