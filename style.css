@@ -295,11 +295,11 @@ input::placeholder {
 }
 
 .main-grid-cell.hover {
-  border: 3px solid var(--pink);
+  border: 3px solid var(--yellow);
 }
 
 .dark .main-grid-cell.hover {
-  border: 1px solid var(--pink);
+  border: 1px solid var(--yellow);
 }
 
 .main-grid-cell.err {

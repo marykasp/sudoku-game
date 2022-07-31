@@ -12,6 +12,7 @@ const cells = document.querySelectorAll(".main-grid-cell");
 const playerName = document.querySelector("#player-name");
 const gameLevel = document.querySelector("#game-level");
 const gameTime = document.querySelector("#game-time");
+const numberInputs = document.querySelectorAll(".number");
 
 // Screens
 const startScreen = document.querySelector("#start-screen");
@@ -102,6 +103,71 @@ const initSudoku = () => {
       cells[i].innerHTML = su.question[row][col];
     }
   }
+};
+
+const hoverBg = (index) => {
+  let row = Math.floor(index / CONSTANT.GRID_SIZE);
+  let col = index % CONSTANT.GRID_SIZE;
+
+  let boxStartRow = row - (row % 3);
+  let boxStartCol = col - (col % 3);
+
+  for (let i = 0; i < CONSTANT.BOX_SIZE; i++) {
+    for (let j = 0; j < CONSTANT.BOX_SIZE; j++) {
+      let cell = cells[9 * (boxStartRow + i) + (boxStartCol + j)];
+      cell.classList.add("hover");
+    }
+  }
+
+  let step = 9;
+  while (index - step >= 0) {
+    cells[index - step].classList.add("hover");
+    step += 9;
+  }
+
+  step = 9;
+  while (index + step < 81) {
+    cells[index + step].classList.add("hover");
+    step += 9;
+  }
+
+  step = 1;
+  while (index - step >= 9 * row) {
+    cells[index - step].classList.add("hover");
+    step += 1;
+  }
+
+  step = 1;
+  while (index + step >= 9 * row + 9) {
+    cells[index + step].classList.add("hover");
+    step += 1;
+  }
+};
+
+const resetBg = () => {
+  cells.forEach((e) => e.classList.remove("hover"));
+};
+
+const initCellsEvent = () => {
+  // for each cell add an event listenter
+  cells.forEach((e, index) => {
+    e.addEventListener("click", () => {
+      // if classlist of cell clicked on is not a filled cell
+      if (!e.classList.contains("filled")) {
+        // then iterate over the cells and remove selected from all
+        cells.forEach((e) => e.classList.remove("selected"));
+
+        // add selected class to cell clicked on
+        selectedCell = index;
+        e.classList.remove("err");
+        e.classList.add("selected");
+        // remove hover class from each cell
+        resetBg();
+        // pass in index of cell selected to change hover
+        hoverBg(index);
+      }
+    });
+  });
 };
 
 const startGame = () => {
