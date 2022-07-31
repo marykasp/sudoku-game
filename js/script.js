@@ -35,6 +35,22 @@ const getGameInfo = () => {
   return JSON.parse(localStorage.getItem("game"));
 };
 
+const setPlayerName = (name) =>
+  localStorage.setItem("playerName", JSON.stringify(name));
+const getPlayerName = () => JSON.parse(localStorage.getItem("playerName"));
+
+// calculate and display the time
+const showTime = (seconds) => {
+  let hour = Math.floor(seconds / 3600);
+  let minute = Math.floor(seconds / 60);
+  let totalseconds = seconds - (hour * 3600 + minute * 60);
+
+  // display the time
+  gameTime.querySelector("#hour").innerHTML = hour;
+  gameTime.querySelector("#minute").innerHTML = minute;
+  gameTime.querySelector("#seconds").innerHTML = totalseconds;
+};
+
 // add space for each 9 cells
 const initGamegrid = () => {
   let index = 0;
@@ -53,20 +69,8 @@ const initGamegrid = () => {
   }
 };
 
-const setPlayerName = (name) =>
-  localStorage.setItem("playerName", JSON.stringify(name));
-const getPlayerName = () => JSON.parse(localStorage.getItem("playerName"));
-
-// calculate and display the time
-const showTime = (seconds) => {
-  let hour = Math.floor(seconds / 3600);
-  let minute = Math.floor(seconds / 60);
-  let totalseconds = seconds - (hour * 3600 + minute * 60);
-
-  // display the time
-  gameTime.querySelector("#hour").innerHTML = hour;
-  gameTime.querySelector("#minute").innerHTML = minute;
-  gameTime.querySelector("#seconds").innerHTML = totalseconds;
+const initSudoku = () => {
+  // generate sudoku puzzle
 };
 
 const startGame = () => {
