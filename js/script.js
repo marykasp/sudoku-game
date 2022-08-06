@@ -231,16 +231,32 @@ const initCellsEvent = () => {
   });
 };
 
-// const initNumberInputEvent = () => {
-//   numberInputs.forEach((e, index) => {
-//     e.addEventListener("click", () => {
-//       if (!cells[selectedCell].classList.contains("filled")) {
-//         cells[selectedCell].innerHTML = index + 1;
-//         cells[selectedCell].setAttribute("data-value", index + 1);
-//       }
-//     });
-//   });
-// };
+// add event listeners to each of the input numbers
+const initNumberInputEvent = () => {
+  numberInputs.forEach((e, index) => {
+    e.addEventListener("click", () => {
+      // if the selectedCell is not filled
+      if (!cells[selectedCell].classList.contains("filled")) {
+        // change the cells innerHTML and data-value to be equal to the value cllicked on (index + 1, 0 + 1 = 1)
+        cells[selectedCell].innerHTML = index + 1;
+        cells[selectedCell].setAttribute("data-value", index + 1);
+
+        // add value to sudoku answer grid
+        let row = Math.floor(selectedCell / CONSTANT.GRID_SIZE);
+        let col = selectedCell % CONSTANT.GRID_SIZE;
+        suAnswer[row][col] = index + 1;
+        // save game
+        removeErr();
+        // pass in the value clicked on to checkErr - iterates over the 3x3 grid, row and column to check each cell (not selected) if its data value matches the number clicked on - if so error class is added to cell
+        checkErr(index + 1);
+        cells[selectedCell].classList.add("zoom");
+        setTimeout(() => {
+          cells[selectedCell].classList.remove("zoom");
+        }, 500);
+      }
+    });
+  });
+};
 
 // ---------------
 const startGame = () => {
